@@ -1,5 +1,6 @@
 package model;
 
-public class Unit {
+public abstract class Unit {
 	private int team;
+	private int moves;
 }
