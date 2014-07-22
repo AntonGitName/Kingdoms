@@ -53,7 +53,7 @@ public class MapLoader {
 				
 				SquareTag tag = SquareTag.getName(squareChar);
 				if (tag == null) {
-					throw new MapLoaderException(String.format("Invalid character in SQUARES section at (%i, %i) position.", i, j));
+					throw new MapLoaderException(String.format("Invalid character in SQUARES section at (%d, %d) position.", i, j));
 				}
 				
 				switch (tag) {
@@ -86,11 +86,11 @@ public class MapLoader {
 			buildingChar = scanner.next().charAt(0);
 			BuildingTag tag = BuildingTag.getName(buildingChar);
 			if (tag == null) {
-				throw new MapLoaderException(String.format("Invalid character in BUILDINGS section at %i line.", i + 1));
+				throw new MapLoaderException(String.format("Invalid character in BUILDINGS section at %d line.", i + 1));
 			}
 			
-			x = scanner.nextInt();
-			y = scanner.nextInt();
+			x = scanner.nextInt() - 1;
+			y = scanner.nextInt() - 1;
 			Building building;
 			switch (tag) {
 			case CASTLE:
@@ -130,11 +130,11 @@ public class MapLoader {
 				unitChar = scanner.next().charAt(0);
 				UnitTag tag = UnitTag.getName(unitChar);
 				if (tag == null) {
-					throw new MapLoaderException(String.format("Invalid character in BUILDINGS section at %i line.", i + 1));
+					throw new MapLoaderException(String.format("Invalid character in UNITS section at %d line.", i + 1));
 				}
 				
-				x = scanner.nextInt();
-				y = scanner.nextInt();
+				x = scanner.nextInt() - 1;
+				y = scanner.nextInt() - 1;
 				Unit unit;
 				switch (tag) {
 				case ARCHER:

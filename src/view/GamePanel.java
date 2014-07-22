@@ -8,7 +8,9 @@ import javax.swing.JPanel;
 
 import model.GameField;
 import model.GameModel;
+import model.buildings.Building;
 import model.squares.Square;
+import model.units.Unit;
 
 public class GamePanel extends JPanel {
 
@@ -18,12 +20,13 @@ public class GamePanel extends JPanel {
 	
 	private static final int SQUARE_SIZE = 64;
 	private static final int UNIT_SIZE = 32;
+	private static final int BUILDING_SIZE = 48;
 	private static final int PREFERRED_SIZE = 640;
 	
-	public GamePanel() {
+	public GamePanel(GameModel model) {
 		super();
 		
-		model = new GameModel(10, 10);
+		this.model = model;
 	}
 
 	private static final Color BACKGROUND_COLOR = new Color(51, 51, 51);
@@ -38,15 +41,14 @@ public class GamePanel extends JPanel {
 		int h = field.getHeight();
 		
 		Square[][] map = field.getMap();
+		Unit[][] units = field.getUnits();
+		Building[][] buildings = field.getBuildings();
 		
 		int x;
 		int y;
 		
 		g.setColor(BACKGROUND_COLOR);
 		g.fillRect(0, 0, w * SQUARE_SIZE, h * SQUARE_SIZE);
-		
-		g.setColor(Color.RED);
-		g.drawRect(0, 0, w * SQUARE_SIZE, h * SQUARE_SIZE);
 		
 		for (int i = 0; i < h; ++i) {
 			for (int j = 0; j < w; ++j) {
@@ -64,6 +66,24 @@ public class GamePanel extends JPanel {
 				y = i * SQUARE_SIZE;
 				x = j * SQUARE_SIZE;
 				g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
+				g.setColor(Color.RED);
+				g.drawRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
+				
+				Unit unit = units[i][j];
+				if (unit != null) {
+					x += (SQUARE_SIZE - UNIT_SIZE) / 2;
+					y += (SQUARE_SIZE - UNIT_SIZE) / 2;
+					g.setColor(Color.ORANGE);
+					g.fillRect(x, y, UNIT_SIZE, UNIT_SIZE);
+				}
+				
+				Building building = buildings[i][j];
+				if (building != null) {
+					x += (SQUARE_SIZE - BUILDING_SIZE) / 2;
+					y += (SQUARE_SIZE - BUILDING_SIZE) / 2;
+					g.setColor(Color.PINK);
+					g.fillRect(x, y, BUILDING_SIZE, BUILDING_SIZE);
+				}
 			}
 		}
 		g.setColor(Color.RED);

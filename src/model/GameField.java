@@ -68,6 +68,9 @@ public class GameField {
 	}
 	
 	public void addBuilding(Building building, int x, int y) throws GameFieldException {
+		if (!checkPosition(x, y)) {
+			throw new GameFieldException(String.format("Accesing square with invalid position (%d, %d).", x, y));
+		}
 		switch (map[y][x]) {
 		case GRASS:
 			buildings[y][x] = building;
@@ -80,6 +83,9 @@ public class GameField {
 	}
 	
 	public void addUnit(Unit unit, int x, int y) throws GameFieldException {
+		if (!checkPosition(x, y)) {
+			throw new GameFieldException(String.format("Accesing square with invalid position (%d, %d).", x, y));
+		}
 		switch (map[y][x]) {
 		case GRASS:
 			units[y][x] = unit;
