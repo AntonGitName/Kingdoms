@@ -1,7 +1,7 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import model.units.Unit;
+
 
 public class GameModel {
 	
@@ -14,6 +14,10 @@ public class GameModel {
 	private int numberOfTeams;
 	
 	private int currentTeamTurn;
+	
+	public GameModel(GameField field) {
+		this.field = field;
+	}
 	
 	public GameModel(int width, int height) {
 		field = new GameField(width, height);
@@ -36,8 +40,10 @@ public class GameModel {
 	}
 	
 	public void endTurn() {
-		
-		currentTeamTurn = (currentTeamTurn + 1) % numberOfTeams;
-		
+		currentTeamTurn = (currentTeamTurn + 1) % numberOfTeams;	
+	}
+	
+	public boolean isGameOver() {
+		return false;
 	}
 }

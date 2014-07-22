@@ -3,6 +3,10 @@ package model;
 import java.util.PriorityQueue;
 import java.util.Random;
 
+import model.buildings.Building;
+import model.squares.Square;
+import model.units.Unit;
+
 public class GameField {
 		private final int width;
 	private final int height;;
@@ -12,6 +16,21 @@ public class GameField {
 	private final Square[][] map;
 	
 	private final Random rnd = new Random();
+	
+	public GameField(int width, int height, Square[][] map) {
+		this.width = width;
+		this.height = height;
+		buildings = new Building[height][width];
+		units = new Unit[height][width];
+		this.map = map;
+		map = new Square[height][width];
+		visited = new VisitNode[height][width];
+		for (int i = 0; i < height; ++i) {
+			for (int j = 0; j < height; ++j) {
+				visited[i][j] = new VisitNode(j, i);
+			}
+		}
+	}
 	
 	public GameField(int width, int height) {
 		this.width = width;
@@ -48,12 +67,24 @@ public class GameField {
 		return map;
 	}
 	
+	public void addBuilding(Building building, int x, int y) throws GameFieldException {
+		switch (map[y][x]) {
+		case GRASS:
+			buildings[y][x] = building;
+			break;
+		case MOUNTAIN:
+		case WATER:
+			throw new GameFieldException("Adding to not invalid square");
+		}
+		
+	}
+	
 	public void addUnit(Unit unit, int x, int y) throws GameFieldException {
 		switch (map[y][x]) {
 		case GRASS:
 			units[y][x] = unit;
 			break;
-		case STONE:
+		case MOUNTAIN:
 		case WATER:
 			throw new GameFieldException("Adding to not invalid square");
 		}
@@ -116,7 +147,7 @@ public class GameField {
 	
 	private boolean checkMove(Move move) {
 		switch (map[move.toY][move.toX]) {
-		case STONE:
+		case MOUNTAIN:
 		case WATER:
 			return false;
 		default:

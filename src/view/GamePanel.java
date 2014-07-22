@@ -8,9 +8,11 @@ import javax.swing.JPanel;
 
 import model.GameField;
 import model.GameModel;
-import model.Square;
+import model.squares.Square;
 
 public class GamePanel extends JPanel {
+
+	private static final long serialVersionUID = -5090326710138990599L;
 
 	private final GameModel model;
 	
@@ -52,7 +54,7 @@ public class GamePanel extends JPanel {
 				case GRASS:
 					g.setColor(Color.GREEN);
 					break;
-				case STONE:
+				case MOUNTAIN:
 					g.setColor(Color.GRAY);
 					break;
 				case WATER:
