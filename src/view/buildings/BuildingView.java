@@ -5,7 +5,7 @@ import view.Drawable;
 
 public abstract class BuildingView implements Drawable {
 
-	private final BuildingModel buildingModel;
+	protected final BuildingModel buildingModel;
 
 	public BuildingView(BuildingModel buildingModel) {
 		super();

@@ -2,13 +2,12 @@ package model;
 
 import model.units.UnitModel;
 
-
 public class GameModel {
-	
+
 	private final GameField field;
 	private final int numberOfTeams;
 	private int currentTeamTurn;
-		
+
 	public GameModel(GameField field) {
 		this.field = field;
 		numberOfTeams = 2;
@@ -17,15 +16,15 @@ public class GameModel {
 	public GameField getField() {
 		return field;
 	}
-	
+
 	public boolean isGameOver() {
 		return false;
 	}
-	
+
 	public void makeMove(int fromX, int fromY, int toX, int toY) {
-		
-		//Move move = new Move(fromX, fromY, toX, toY);
-		
+
+		// Move move = new Move(fromX, fromY, toX, toY);
+
 		UnitModel unitToMove = field.getUnit(fromX, fromY);
 		if (unitToMove.getTeam() != currentTeamTurn) {
 			return;
@@ -35,9 +34,9 @@ public class GameModel {
 		}
 		field.makeMove(fromX, fromY, toX, toY);
 	}
-	
+
 	public void nextTeamTurn() {
-		currentTeamTurn = (currentTeamTurn + 1) % numberOfTeams;	
+		currentTeamTurn = (currentTeamTurn + 1) % numberOfTeams;
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 
 public enum BuildingTag {
 	CASTLE('C'), MILL('M');
-	
+
 	public static BuildingTag getName(char tag) {
 		if (mapping == null) {
 			mapping = new HashMap<Character, BuildingTag>();
@@ -15,10 +15,11 @@ public enum BuildingTag {
 		}
 		return mapping.get(tag);
 	}
+
 	private final char tag;
-	
+
 	private static Map<Character, BuildingTag> mapping;
-	
+
 	private BuildingTag(char tag) {
 		this.tag = tag;
 	}
