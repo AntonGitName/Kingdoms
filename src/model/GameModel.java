@@ -1,6 +1,5 @@
 package model;
 
-import model.buildings.BuildingModel;
 import model.units.UnitModel;
 
 
@@ -13,15 +12,6 @@ public class GameModel {
 	public GameModel(GameField field) {
 		this.field = field;
 		numberOfTeams = 2;
-	}
-	
-	public void addBuilding(BuildingModel building, int x, int y)
-			throws GameFieldException {
-		field.addBuilding(building, x, y);
-	}
-
-	public void addUnit(UnitModel unit, int x, int y) throws GameFieldException {
-		field.addUnit(unit, x, y);
 	}
 
 	public GameField getField() {

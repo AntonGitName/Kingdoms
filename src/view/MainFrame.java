@@ -18,7 +18,7 @@ public class MainFrame extends JFrame {
 
 	private final GamePanel panel;
 	private final JButton nextTurnButton;
-	private final GameModel model;
+	private final GameView game;
 	
 	private static final String mapFilename = "resources/map.txt";
 	
@@ -31,19 +31,21 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				model.nextTeamTurn();				
+				game.nextTeamTurn();				
 			}
 		});
 		
 		GameModel model = null;
+		GameView game = null;
 		try {
 			model = MapLoader.loadFromFile(mapFilename);
+			game = new GameView(model);
 		} catch (MapLoaderException e) {
 			// replace with showmessage dialog
 			e.printStackTrace();
 		}
-		this.model = model;
-		panel = new GamePanel(this.model);
+		this.game = game;
+		panel = new GamePanel(this.game);
 	}
 	
 	public void showGUI() {

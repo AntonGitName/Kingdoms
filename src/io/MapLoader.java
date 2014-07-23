@@ -24,20 +24,18 @@ public class MapLoader {
 			
 			GameField field = parseSquares(scanner);
 			
-			GameModel model = new GameModel(field);
+			parseBuildings(field, scanner);
 			
-			parseBuildings(model, scanner);
+			parseUnits(field, scanner);
 			
-			parseUnits(model, scanner);
-			
-			return model;
+			return new GameModel(field);
 			
 		} catch (IOException e) {
 			throw new MapLoaderException(e.getMessage());
 		}
 	}
 	
-	private static void parseBuildings(GameModel model, Scanner scanner) throws MapLoaderException {
+	private static void parseBuildings(GameField field, Scanner scanner) throws MapLoaderException {
 		if (!scanner.next().equals("BUILDINGS")) {
 			throw new MapLoaderException("Buildings section not found.");
 		}
@@ -67,7 +65,7 @@ public class MapLoader {
 				building = null;
 			}
 			try {
-				model.addBuilding(building, x, y);
+				field.addBuilding(building, x, y);
 			} catch (GameFieldException e) {
 				throw new MapLoaderException(e.getMessage());
 			}
@@ -112,7 +110,7 @@ public class MapLoader {
 		return new GameField(width, height, map);
 	}
 	
-	private static void parseUnits(GameModel model, Scanner scanner) throws MapLoaderException {
+	private static void parseUnits(GameField field, Scanner scanner) throws MapLoaderException {
 		if (!scanner.next().equals("UNITS")) {
 			throw new MapLoaderException("Units section not found.");
 		}
@@ -155,7 +153,7 @@ public class MapLoader {
 					unit = null;
 				}
 				try {
-					model.addUnit(unit, x, y);
+					field.addUnit(unit, x, y);
 				} catch (GameFieldException e) {
 					throw new MapLoaderException(e.getMessage());
 				}

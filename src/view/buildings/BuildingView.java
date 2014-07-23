@@ -1,8 +1,9 @@
 package view.buildings;
 
 import model.buildings.BuildingModel;
+import view.Drawable;
 
-public abstract class BuildingView {
+public abstract class BuildingView implements Drawable {
 
 	private final BuildingModel buildingModel;
 
@@ -10,6 +11,4 @@ public abstract class BuildingView {
 		super();
 		this.buildingModel = buildingModel;
 	}
-	
-	public abstract void draw();	
 }
