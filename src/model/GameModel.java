@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 import model.units.UnitModel;
 
 public class GameModel {
@@ -39,4 +41,22 @@ public class GameModel {
 		currentTeamTurn = (currentTeamTurn + 1) % numberOfTeams;
 	}
 
+	public boolean isAvailableUnit(int x, int y) {
+		final UnitModel unit = field.getUnit(x, y);
+		if (unit == null) {
+			return false;
+		}
+		if (unit.getTeam() != currentTeamTurn) {
+			return false;
+		}
+		return true;
+	}
+	
+	public UnitModel getUnit(int x, int y) {
+		return field.getUnit(x, y);
+	}
+	
+	public List<Point> getAccessibleSquares(int x, int y) throws GameFieldException {
+		return field.getAccessibleSquares(x, y);
+	}
 }

@@ -1,13 +1,17 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
 
 import model.buildings.BuildingModel;
 import model.squares.Square;
 import model.units.UnitModel;
 
-public class GameField {
+public final class GameField {
 	private final int width;
 	private final int height;;
 
@@ -111,10 +115,29 @@ public class GameField {
 			curNode.visitNum = currentVisit;
 
 			// checking neighbors
-			if (checkPosition(x - 1, y) && isVisited(x - 1, y)) {
+			if (checkPosition(x - 1, y) && !isVisited(x - 1, y)) {
 				visited[x - 1][y].distFunc = manhattanDist(x - 1, y, toX, toY)
 						+ curNode.distFunc;
 				visited[x - 1][y].prev = curNode;
+				queue.add(visited[x - 1][y]);
+			}
+			if (checkPosition(x + 1, y) && !isVisited(x + 1, y)) {
+				visited[x + 1][y].distFunc = manhattanDist(x + 1, y, toX, toY)
+						+ curNode.distFunc;
+				visited[x + 1][y].prev = curNode;
+				queue.add(visited[x + 1][y]);
+			}
+			if (checkPosition(x, y - 1) && !isVisited(x, y - 1)) {
+				visited[x][y - 1].distFunc = manhattanDist(x, y - 1, toX, toY)
+						+ curNode.distFunc;
+				visited[x][y - 1].prev = curNode;
+				queue.add(visited[x][y - 1]);
+			}
+			if (checkPosition(x, y + 1) && !isVisited(x, y + 1)) {
+				visited[x][y - 1].distFunc = manhattanDist(x, y + 1, toX, toY)
+						+ curNode.distFunc;
+				visited[x][y + 1].prev = curNode;
+				queue.add(visited[x][y + 1]);
 			}
 		}
 
@@ -162,6 +185,75 @@ public class GameField {
 		return units;
 	}
 
+	public List<Point> getAccessibleSquares(int fromX, int fromY) throws GameFieldException {
+		// mark all squares as unvisited
+		++currentVisit;
+
+		List<Point> result = new ArrayList<>();
+
+		int maxMoves = units[fromY][fromX].getMoves();
+
+		// add first
+		Queue<VisitNode> queue = new LinkedList<>();
+		visited[fromY][fromX].visitNum = currentVisit;
+		visited[fromY][fromX].distFunc = 0;
+		queue.add(visited[fromY][fromX]);
+
+		while (!queue.isEmpty()) {
+			VisitNode curNode = queue.remove();
+			int x = curNode.x;
+			int y = curNode.y;
+
+			result.add(new Point(x, y));
+
+			assert curNode.distFunc > maxMoves;
+
+			if (curNode.distFunc == maxMoves) {
+				continue;
+			}
+
+			// mark as visited
+			curNode.visitNum = currentVisit;
+
+			// checking neighbors
+			if (checkPosition(x - 1, y) && !isVisited(x - 1, y) && isFree(x, y)) {
+				visited[x - 1][y].distFunc = 1 + curNode.distFunc;
+				queue.add(visited[x - 1][y]);
+			}
+			if (checkPosition(x + 1, y) && !isVisited(x + 1, y) && isFree(x, y)) {
+				visited[x + 1][y].distFunc =  1 + curNode.distFunc;
+				queue.add(visited[x + 1][y]);
+			}
+			if (checkPosition(x, y - 1) && !isVisited(x, y - 1) && isFree(x, y)) {
+				visited[x][y - 1].distFunc =  1 + curNode.distFunc;
+				queue.add(visited[x][y - 1]);
+			}
+			if (checkPosition(x, y + 1) && !isVisited(x, y + 1) && isFree(x, y)) {
+				visited[x][y - 1].distFunc = 1 + curNode.distFunc;
+				queue.add(visited[x][y + 1]);
+			}
+		}
+
+		return result;
+	}
+
+	private boolean isFree(int x, int y) throws GameFieldException {
+		assert checkPosition(x, y);
+		if (units[y][x] != null) {
+			return false;
+		}
+		switch (map[y][x]) {
+		case MOUNTAIN:
+		case WATER:
+		case TREE:
+			return false;
+		case GRASS:
+			return true;
+		default:
+			throw new GameFieldException(String.format("Unhandled type %s in function isFree.", map[y][x]));
+		}
+	}
+	
 	public int getWidth() {
 		return width;
 	}

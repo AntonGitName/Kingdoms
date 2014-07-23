@@ -4,12 +4,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
 import view.buildings.BuildingView;
 import view.units.UnitView;
 import model.GameField;
+import model.GameFieldException;
+import model.Point;
 import model.buildings.BuildingModel;
 import model.squares.Square;
 import model.units.UnitModel;
@@ -29,6 +34,22 @@ public class GamePanel extends JPanel {
 		super();
 
 		this.gameView = gameView;
+		
+		this.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				final int x = e.getX() / SQUARE_SIZE;
+				final int y = e.getY()  / SQUARE_SIZE;
+				try {
+					gameView.selectUnit(x, y);
+				} catch (GameFieldException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
 	}
 
 	@Override
@@ -69,6 +90,11 @@ public class GamePanel extends JPanel {
 		
 		for (BuildingView building : gameView.getBuildings()) {
 			g.drawImage(building.getImage(), building.getX() * SQUARE_SIZE, building.getY() * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, null);
+		}
+		
+		g.setColor(Color.RED);
+		for (Point point : gameView.getSelectedSquares()) {
+			g.drawRect(point.x * SQUARE_SIZE, point.y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
 		}
 		
 		g.setColor(Color.RED);

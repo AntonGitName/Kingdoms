@@ -9,6 +9,10 @@ public abstract class UnitModel {
 
 	private int moves;
 
+	public int getMoves() {
+		return moves;
+	}
+
 	private int health;
 	private int team;
 	private static final int START_HEALTH = 10;

@@ -11,7 +11,9 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import model.GameField;
+import model.GameFieldException;
 import model.GameModel;
+import model.Point;
 import model.buildings.BuildingModel;
 import model.buildings.Castle;
 import model.buildings.Mill;
@@ -60,7 +62,6 @@ public class GameView {
 		units = new ArrayList<>();
 		buildings = new ArrayList<>();
 		GameField field = model.getField();
-		Square[][] map = field.getMap();
 		UnitModel[][] units = field.getUnits();
 		BuildingModel[][] buildings = field.getBuildings();
 		int w = field.getWidth();
@@ -99,6 +100,24 @@ public class GameView {
 		}
 	}
 
+	private Point selectedSquareCoord;
+	private List<Point> selectedSquares = null;
+	
+	public List<Point> getSelectedSquares() {
+		return selectedSquares;
+	}
+
+	private void selectSquare(int x, int y) {
+		selectedSquareCoord = new Point(x, y);
+	}
+	
+	public void selectUnit(int x, int y) throws GameFieldException {
+		if (model.isAvailableUnit(x, y)) {
+			selectSquare(x, y);
+			selectedSquares = model.getAccessibleSquares(x, y);
+		}
+	}
+	
 	public GameField getField() {
 		return model.getField();
 	}
