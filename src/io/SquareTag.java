@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum SquareTag {
-	GRASS('G'), WATER('W'), MOUNTAIN('M');
+	GRASS('G'), WATER('W'), MOUNTAIN('M'), TREE('T');
 
 	public static SquareTag getName(char tag) {
 		if (mapping == null) {

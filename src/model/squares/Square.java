@@ -1,5 +1,5 @@
 package model.squares;
 
 public enum Square {
-	WATER, GRASS, MOUNTAIN
+	WATER, GRASS, MOUNTAIN, TREE;
 }

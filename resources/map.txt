@@ -1,27 +1,30 @@
 10 10
 SQUARES
-G G G G G G G G G G
-G G G G G W G G G G
-G G G G G W G G G G
-G G G G G W G G G G
-G G G G G G G G G G
-G G G G G G G G G G
-G G G G G G G G G G
-G G M M G G G G G G
-G G G G G G G G G G
-G G G G G G G G G G
+G G M T G T T M G G
+G G M T T G T M G G
+T G G W W W W G G T
+T G T W G W W T G T
+T G G W W W W G G T
+G M G W W T W G M G
+G M G W W W W G M G
+T T G G G G G G T T
+G G M M M M M M G G
+T G G G T T G G G T
 BUILDINGS
 4
 C 1 1
-C 10 10
-M 10 1
-M 1 10
+C 10 1
+M 1 9
+M 10 9
 UNITS
 2
 1 4
-K 2 2
-A 2 3
-P 2 4
-N 2 5
-2 1
-K 9 9
+K 2 1
+A 2 2
+P 2 3
+N 2 4
+2 4
+K 9 1
+A 9 2
+P 9 3
+N 9 4

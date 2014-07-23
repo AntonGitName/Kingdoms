@@ -111,6 +111,14 @@ public class MapLoader {
 				case WATER:
 					map[i][j] = Square.WATER;
 					break;
+				case TREE:
+					map[i][j] = Square.TREE;
+					break;
+				default:
+					throw new MapLoaderException(
+							String.format(
+									"Invalid character in SQUARES section at (%d, %d) position.",
+									i, j));
 				}
 			}
 		}
