@@ -17,20 +17,9 @@ public class GameField {
 	
 	private final Random rnd = new Random();
 	
-	public GameField(int width, int height, Square[][] map) {
-		this.width = width;
-		this.height = height;
-		buildings = new Building[height][width];
-		units = new Unit[height][width];
-		this.map = map;
-		map = new Square[height][width];
-		visited = new VisitNode[height][width];
-		for (int i = 0; i < height; ++i) {
-			for (int j = 0; j < height; ++j) {
-				visited[i][j] = new VisitNode(j, i);
-			}
-		}
-	}
+	private final VisitNode visited[][];
+	
+	private int currentVisit = 1;
 	
 	public GameField(int width, int height) {
 		this.width = width;
@@ -46,27 +35,22 @@ public class GameField {
 			}
 		}
 	}
-	
-	public int getWidth() {
-		return width;
+
+	public GameField(int width, int height, Square[][] map) {
+		this.width = width;
+		this.height = height;
+		buildings = new Building[height][width];
+		units = new Unit[height][width];
+		this.map = map;
+		map = new Square[height][width];
+		visited = new VisitNode[height][width];
+		for (int i = 0; i < height; ++i) {
+			for (int j = 0; j < height; ++j) {
+				visited[i][j] = new VisitNode(j, i);
+			}
+		}
 	}
 
-	public int getHeight() {
-		return height;
-	}
-
-	public Building[][] getBuildings() {
-		return buildings;
-	}
-
-	public Unit[][] getUnits() {
-		return units;
-	}
-	
-	public Square[][] getMap() {
-		return map;
-	}
-	
 	public void addBuilding(Building building, int x, int y) throws GameFieldException {
 		if (!checkPosition(x, y)) {
 			throw new GameFieldException(String.format("Accesing square with invalid position (%d, %d).", x, y));
@@ -81,7 +65,7 @@ public class GameField {
 		}
 		
 	}
-	
+
 	public void addUnit(Unit unit, int x, int y) throws GameFieldException {
 		if (!checkPosition(x, y)) {
 			throw new GameFieldException(String.format("Accesing square with invalid position (%d, %d).", x, y));
@@ -95,25 +79,6 @@ public class GameField {
 			throw new GameFieldException("Adding to not invalid square");
 		}
 		
-	}
-	
-	public Unit getUnit(int x, int y) {
-		return units[y][x];
-	}
-	
-	private final VisitNode visited[][];
-	private int currentVisit = 1;
-	
-	private boolean checkPosition(int x, int y) {
-		return (x >= 0) && (x < width) && (y >= 0) && (x < height);
-	}
-	
-	private boolean isVisited(int x, int y) {
-		return visited[x][y].visitNum == currentVisit;
-	}
-	
-	private int manhattanDist(int fromX, int fromY, int toX, int toY) {
-		return Math.abs(fromX - toX) + Math.abs(fromY - toY);
 	}
 	
 	// A* algorithm to find a path between two squares
@@ -168,15 +133,50 @@ public class GameField {
 		return true;
 	}
 	
-	public void makeMove(Move move) {
-		assert checkMove(move);
-		units[move.toY][move.toX] = units[move.fromY][move.fromX];
-		units[move.fromY][move.fromX] = null;
+	private boolean checkPosition(int x, int y) {
+		return (x >= 0) && (x < width) && (y >= 0) && (x < height);
+	}
+	
+	public Building[][] getBuildings() {
+		return buildings;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	public Square[][] getMap() {
+		return map;
+	}
+	
+	public Unit getUnit(int x, int y) {
+		return units[y][x];
+	}
+	
+	public Unit[][] getUnits() {
+		return units;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	private boolean isVisited(int x, int y) {
+		return visited[x][y].visitNum == currentVisit;
 	}
 	
 	public void makeMove(int fromX, int fromY, int toX, int toY) {
 		assert checkMove(new Move(fromX, fromY, toX, toY));
 		units[toY][toX] = units[fromY][fromX];
 		units[fromY][fromX] = null;
+	}
+	
+	public void makeMove(Move move) {
+		assert checkMove(move);
+		units[move.toY][move.toX] = units[move.fromY][move.fromX];
+		units[move.fromY][move.fromX] = null;
+	}
+	
+	private int manhattanDist(int fromX, int fromY, int toX, int toY) {
+		return Math.abs(fromX - toX) + Math.abs(fromY - toY);
 	}
 }

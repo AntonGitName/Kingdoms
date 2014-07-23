@@ -35,6 +35,43 @@ public class MapLoader {
 		}
 	}
 	
+	private static void parseBuildings(GameField field, Scanner scanner) throws MapLoaderException {
+		if (!scanner.next().equals("BUILDINGS")) {
+			throw new MapLoaderException("Buildings section not found.");
+		}
+		
+		char buildingChar;
+		int x;
+		int y;
+		int numberOfBuildings = scanner.nextInt();
+		for (int i = 0; i < numberOfBuildings; ++i) {
+			buildingChar = scanner.next().charAt(0);
+			BuildingTag tag = BuildingTag.getName(buildingChar);
+			if (tag == null) {
+				throw new MapLoaderException(String.format("Invalid character in BUILDINGS section at %d line.", i + 1));
+			}
+			
+			x = scanner.nextInt() - 1;
+			y = scanner.nextInt() - 1;
+			Building building;
+			switch (tag) {
+			case CASTLE:
+				building = new Castle();
+				break;
+			case MILL:
+				building = new Mill();
+				break;
+			default:
+				building = null;
+			}
+			try {
+				field.addBuilding(building, x, y);
+			} catch (GameFieldException e) {
+				throw new MapLoaderException(e.getMessage());
+			}
+		}
+	}
+	
 	private static GameField parseSquares(Scanner scanner) throws MapLoaderException {
 		int width = scanner.nextInt();
 		int height = scanner.nextInt();
@@ -71,43 +108,6 @@ public class MapLoader {
 		}
 		
 		return new GameField(width, height, map);
-	}
-	
-	private static void parseBuildings(GameField field, Scanner scanner) throws MapLoaderException {
-		if (!scanner.next().equals("BUILDINGS")) {
-			throw new MapLoaderException("Buildings section not found.");
-		}
-		
-		char buildingChar;
-		int x;
-		int y;
-		int numberOfBuildings = scanner.nextInt();
-		for (int i = 0; i < numberOfBuildings; ++i) {
-			buildingChar = scanner.next().charAt(0);
-			BuildingTag tag = BuildingTag.getName(buildingChar);
-			if (tag == null) {
-				throw new MapLoaderException(String.format("Invalid character in BUILDINGS section at %d line.", i + 1));
-			}
-			
-			x = scanner.nextInt() - 1;
-			y = scanner.nextInt() - 1;
-			Building building;
-			switch (tag) {
-			case CASTLE:
-				building = new Castle();
-				break;
-			case MILL:
-				building = new Mill();
-				break;
-			default:
-				building = null;
-			}
-			try {
-				field.addBuilding(building, x, y);
-			} catch (GameFieldException e) {
-				throw new MapLoaderException(e.getMessage());
-			}
-		}
 	}
 	
 	private static void parseUnits(GameField field, Scanner scanner) throws MapLoaderException {

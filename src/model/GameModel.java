@@ -7,22 +7,21 @@ public class GameModel {
 	
 	private final GameField field;
 	
-	public GameField getField() {
-		return field;
-	}
+	private final int numberOfTeams;
 
-	private int numberOfTeams;
-	
 	private int currentTeamTurn;
 	
 	public GameModel(GameField field) {
 		this.field = field;
+		numberOfTeams = 2;
 	}
 	
-	public GameModel(int width, int height) {
-		field = new GameField(width, height);
-		numberOfTeams = 2;
-		currentTeamTurn = 0;
+	public GameField getField() {
+		return field;
+	}
+	
+	public boolean isGameOver() {
+		return false;
 	}
 	
 	public void makeMove(int fromX, int fromY, int toX, int toY) {
@@ -39,11 +38,8 @@ public class GameModel {
 		field.makeMove(fromX, fromY, toX, toY);
 	}
 	
-	public void endTurn() {
+	public void nextTeamTurn() {
 		currentTeamTurn = (currentTeamTurn + 1) % numberOfTeams;	
 	}
-	
-	public boolean isGameOver() {
-		return false;
-	}
+
 }

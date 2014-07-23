@@ -23,14 +23,21 @@ public class GamePanel extends JPanel {
 	private static final int BUILDING_SIZE = 48;
 	private static final int PREFERRED_SIZE = 640;
 	
+	private static final Color BACKGROUND_COLOR = new Color(51, 51, 51);
+
 	public GamePanel(GameModel model) {
 		super();
 		
 		this.model = model;
 	}
-
-	private static final Color BACKGROUND_COLOR = new Color(51, 51, 51);
 	
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(PREFERRED_SIZE, PREFERRED_SIZE);
+	}
+
+	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -88,13 +95,6 @@ public class GamePanel extends JPanel {
 		}
 		g.setColor(Color.RED);
 		g.drawRect(0, 0, w * SQUARE_SIZE, h * SQUARE_SIZE);
-	}
-
-	
-
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(PREFERRED_SIZE, PREFERRED_SIZE);
 	}
 
 }
