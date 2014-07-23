@@ -29,14 +29,4 @@ public final class KingView extends UnitView {
 		return image;
 	}
 
-	@Override
-	public int getX() {
-		return unitModel.getX();
-	}
-
-	@Override
-	public int getY() {
-		return unitModel.getY();
-	}
-
 }

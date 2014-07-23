@@ -13,4 +13,13 @@ public abstract class UnitView implements Drawable {
 		this.unitModel = unitModel;
 	}
 
+	@Override
+	public int getX() {
+		return unitModel.getX();
+	}
+
+	@Override
+	public int getY() {
+		return unitModel.getY();
+	}
 }

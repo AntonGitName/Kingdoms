@@ -28,13 +28,4 @@ public final class KnightView extends UnitView {
 		return image;
 	}
 
-	@Override
-	public int getX() {
-		return unitModel.getX();
-	}
-
-	@Override
-	public int getY() {
-		return unitModel.getY();
-	}
 }

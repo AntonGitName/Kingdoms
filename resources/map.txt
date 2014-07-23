@@ -11,9 +11,11 @@ G G M M G G G G G G
 G G G G G G G G G G
 G G G G G G G G G G
 BUILDINGS
-2
+4
 C 1 1
 C 10 10
+M 10 1
+M 1 10
 UNITS
 2
 1 4

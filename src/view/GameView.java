@@ -13,9 +13,13 @@ import javax.imageio.ImageIO;
 import model.GameField;
 import model.GameModel;
 import model.buildings.BuildingModel;
+import model.buildings.Castle;
+import model.buildings.Mill;
 import model.squares.Square;
 import model.units.*;
 import view.buildings.BuildingView;
+import view.buildings.CastleView;
+import view.buildings.MillView;
 import view.units.*;
 
 public class GameView {
@@ -76,12 +80,20 @@ public class GameView {
 					} else if (unit instanceof Peasant) {
 						this.units.add(new PeasantView(unit));
 					} else {
-						throw new GameViewException("Unknown type stored at game field object.");
+						throw new GameViewException("Unknown type of units stored at game field object.");
 					}
 				}
 
 				BuildingModel building = buildings[i][j];
 				if (building != null) {
+					// not the perfect solution =(
+					if (building instanceof Castle) {
+						this.buildings.add(new CastleView(building));
+					} else if (building instanceof Mill) {
+						this.buildings.add(new MillView(building));
+					} else {
+						throw new GameViewException("Unknown type of buildings stored at game field object.");
+					}
 				}
 			}
 		}
