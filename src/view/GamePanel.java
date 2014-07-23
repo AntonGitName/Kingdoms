@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 
 import model.GameField;
 import model.GameModel;
-import model.buildings.Building;
+import model.buildings.BuildingModel;
 import model.squares.Square;
-import model.units.Unit;
+import model.units.UnitModel;
 
 public class GamePanel extends JPanel {
 
@@ -48,8 +48,8 @@ public class GamePanel extends JPanel {
 		int h = field.getHeight();
 		
 		Square[][] map = field.getMap();
-		Unit[][] units = field.getUnits();
-		Building[][] buildings = field.getBuildings();
+		UnitModel[][] units = field.getUnits();
+		BuildingModel[][] buildings = field.getBuildings();
 		
 		int x;
 		int y;
@@ -76,7 +76,7 @@ public class GamePanel extends JPanel {
 				g.setColor(Color.RED);
 				g.drawRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
 				
-				Unit unit = units[i][j];
+				UnitModel unit = units[i][j];
 				if (unit != null) {
 					x += (SQUARE_SIZE - UNIT_SIZE) / 2;
 					y += (SQUARE_SIZE - UNIT_SIZE) / 2;
@@ -84,7 +84,7 @@ public class GamePanel extends JPanel {
 					g.fillRect(x, y, UNIT_SIZE, UNIT_SIZE);
 				}
 				
-				Building building = buildings[i][j];
+				BuildingModel building = buildings[i][j];
 				if (building != null) {
 					x += (SQUARE_SIZE - BUILDING_SIZE) / 2;
 					y += (SQUARE_SIZE - BUILDING_SIZE) / 2;

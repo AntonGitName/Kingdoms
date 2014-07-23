@@ -3,16 +3,16 @@ package model;
 import java.util.PriorityQueue;
 import java.util.Random;
 
-import model.buildings.Building;
+import model.buildings.BuildingModel;
 import model.squares.Square;
-import model.units.Unit;
+import model.units.UnitModel;
 
 public class GameField {
 		private final int width;
 	private final int height;;
 	
-	private final Building[][] buildings;
-	private final Unit[][] units;
+	private final BuildingModel[][] buildings;
+	private final UnitModel[][] units;
 	private final Square[][] map;
 	
 	private final Random rnd = new Random();
@@ -24,8 +24,8 @@ public class GameField {
 	public GameField(int width, int height) {
 		this.width = width;
 		this.height = height;
-		buildings = new Building[height][width];
-		units = new Unit[height][width];
+		buildings = new BuildingModel[height][width];
+		units = new UnitModel[height][width];
 		map = new Square[height][width];
 		visited = new VisitNode[height][width];
 		for (int i = 0; i < height; ++i) {
@@ -39,8 +39,8 @@ public class GameField {
 	public GameField(int width, int height, Square[][] map) {
 		this.width = width;
 		this.height = height;
-		buildings = new Building[height][width];
-		units = new Unit[height][width];
+		buildings = new BuildingModel[height][width];
+		units = new UnitModel[height][width];
 		this.map = map;
 		map = new Square[height][width];
 		visited = new VisitNode[height][width];
@@ -51,7 +51,7 @@ public class GameField {
 		}
 	}
 
-	public void addBuilding(Building building, int x, int y) throws GameFieldException {
+	public void addBuilding(BuildingModel building, int x, int y) throws GameFieldException {
 		if (!checkPosition(x, y)) {
 			throw new GameFieldException(String.format("Accesing square with invalid position (%d, %d).", x, y));
 		}
@@ -66,7 +66,7 @@ public class GameField {
 		
 	}
 
-	public void addUnit(Unit unit, int x, int y) throws GameFieldException {
+	public void addUnit(UnitModel unit, int x, int y) throws GameFieldException {
 		if (!checkPosition(x, y)) {
 			throw new GameFieldException(String.format("Accesing square with invalid position (%d, %d).", x, y));
 		}
@@ -137,7 +137,7 @@ public class GameField {
 		return (x >= 0) && (x < width) && (y >= 0) && (x < height);
 	}
 	
-	public Building[][] getBuildings() {
+	public BuildingModel[][] getBuildings() {
 		return buildings;
 	}
 	
@@ -148,11 +148,11 @@ public class GameField {
 		return map;
 	}
 	
-	public Unit getUnit(int x, int y) {
+	public UnitModel getUnit(int x, int y) {
 		return units[y][x];
 	}
 	
-	public Unit[][] getUnits() {
+	public UnitModel[][] getUnits() {
 		return units;
 	}
 	

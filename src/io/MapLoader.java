@@ -7,7 +7,7 @@ import java.util.Scanner;
 import model.GameField;
 import model.GameFieldException;
 import model.GameModel;
-import model.buildings.Building;
+import model.buildings.BuildingModel;
 import model.buildings.Castle;
 import model.buildings.Mill;
 import model.squares.Square;
@@ -15,7 +15,7 @@ import model.units.Archer;
 import model.units.King;
 import model.units.Knight;
 import model.units.Peasant;
-import model.units.Unit;
+import model.units.UnitModel;
 
 public class MapLoader {
 
@@ -24,18 +24,20 @@ public class MapLoader {
 			
 			GameField field = parseSquares(scanner);
 			
-			parseBuildings(field, scanner);
+			GameModel model = new GameModel(field);
 			
-			parseUnits(field, scanner);
+			parseBuildings(model, scanner);
 			
-			return new GameModel(field);
+			parseUnits(model, scanner);
+			
+			return model;
 			
 		} catch (IOException e) {
 			throw new MapLoaderException(e.getMessage());
 		}
 	}
 	
-	private static void parseBuildings(GameField field, Scanner scanner) throws MapLoaderException {
+	private static void parseBuildings(GameModel model, Scanner scanner) throws MapLoaderException {
 		if (!scanner.next().equals("BUILDINGS")) {
 			throw new MapLoaderException("Buildings section not found.");
 		}
@@ -53,19 +55,19 @@ public class MapLoader {
 			
 			x = scanner.nextInt() - 1;
 			y = scanner.nextInt() - 1;
-			Building building;
+			BuildingModel building;
 			switch (tag) {
 			case CASTLE:
-				building = new Castle();
+				building = new Castle(x, y);
 				break;
 			case MILL:
-				building = new Mill();
+				building = new Mill(x, y);
 				break;
 			default:
 				building = null;
 			}
 			try {
-				field.addBuilding(building, x, y);
+				model.addBuilding(building, x, y);
 			} catch (GameFieldException e) {
 				throw new MapLoaderException(e.getMessage());
 			}
@@ -110,7 +112,7 @@ public class MapLoader {
 		return new GameField(width, height, map);
 	}
 	
-	private static void parseUnits(GameField field, Scanner scanner) throws MapLoaderException {
+	private static void parseUnits(GameModel model, Scanner scanner) throws MapLoaderException {
 		if (!scanner.next().equals("UNITS")) {
 			throw new MapLoaderException("Units section not found.");
 		}
@@ -135,25 +137,25 @@ public class MapLoader {
 				
 				x = scanner.nextInt() - 1;
 				y = scanner.nextInt() - 1;
-				Unit unit;
+				UnitModel unit;
 				switch (tag) {
 				case ARCHER:
-					unit = new Archer();
+					unit = new Archer(x, y, i);
 					break;
 				case KING:
-					unit = new King();
+					unit = new King(x, y, i);
 					break;
 				case KNIGHT:
-					unit = new Knight();
+					unit = new Knight(x, y, i);
 					break;
 				case PEASANT:
-					unit = new Peasant();
+					unit = new Peasant(x, y, i);
 					break;
 				default:
 					unit = null;
 				}
 				try {
-					field.addUnit(unit, x, y);
+					model.addUnit(unit, x, y);
 				} catch (GameFieldException e) {
 					throw new MapLoaderException(e.getMessage());
 				}

@@ -1,13 +1,13 @@
 10 10
 SQUARES
 G G G G G G G G G G
+G G G G G W G G G G
+G G G G G W G G G G
+G G G G G W G G G G
 G G G G G G G G G G
 G G G G G G G G G G
 G G G G G G G G G G
-G G G G G G G G G G
-G G G G G G G G G G
-G G G G G G G G G G
-G G G G G G G G G G
+G G M M G G G G G G
 G G G G G G G G G G
 G G G G G G G G G G
 BUILDINGS

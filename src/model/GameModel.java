@@ -1,21 +1,29 @@
 package model;
 
-import model.units.Unit;
+import model.buildings.BuildingModel;
+import model.units.UnitModel;
 
 
 public class GameModel {
 	
 	private final GameField field;
-	
 	private final int numberOfTeams;
-
 	private int currentTeamTurn;
-	
+		
 	public GameModel(GameField field) {
 		this.field = field;
 		numberOfTeams = 2;
 	}
 	
+	public void addBuilding(BuildingModel building, int x, int y)
+			throws GameFieldException {
+		field.addBuilding(building, x, y);
+	}
+
+	public void addUnit(UnitModel unit, int x, int y) throws GameFieldException {
+		field.addUnit(unit, x, y);
+	}
+
 	public GameField getField() {
 		return field;
 	}
@@ -28,7 +36,7 @@ public class GameModel {
 		
 		//Move move = new Move(fromX, fromY, toX, toY);
 		
-		Unit unitToMove = field.getUnit(fromX, fromY);
+		UnitModel unitToMove = field.getUnit(fromX, fromY);
 		if (unitToMove.getTeam() != currentTeamTurn) {
 			return;
 		}
