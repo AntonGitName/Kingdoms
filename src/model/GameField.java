@@ -216,21 +216,21 @@ public final class GameField {
 			curNode.visitNum = currentVisit;
 
 			// checking neighbors
-			if (checkPosition(x - 1, y) && !isVisited(x - 1, y) && isFree(x, y)) {
-				visited[x - 1][y].distFunc = 1 + curNode.distFunc;
-				queue.add(visited[x - 1][y]);
+			if (checkPosition(x - 1, y) && !isVisited(x - 1, y) && isFree(x - 1, y)) {
+				visited[y][x - 1].distFunc = 1 + curNode.distFunc;
+				queue.add(visited[y][x - 1]);
 			}
-			if (checkPosition(x + 1, y) && !isVisited(x + 1, y) && isFree(x, y)) {
-				visited[x + 1][y].distFunc =  1 + curNode.distFunc;
-				queue.add(visited[x + 1][y]);
+			if (checkPosition(x + 1, y) && !isVisited(x + 1, y) && isFree(x + 1, y)) {
+				visited[y][x + 1].distFunc =  1 + curNode.distFunc;
+				queue.add(visited[y][x + 1]);
 			}
-			if (checkPosition(x, y - 1) && !isVisited(x, y - 1) && isFree(x, y)) {
-				visited[x][y - 1].distFunc =  1 + curNode.distFunc;
-				queue.add(visited[x][y - 1]);
+			if (checkPosition(x, y - 1) && !isVisited(x, y - 1) && isFree(x, y - 1)) {
+				visited[y - 1][x].distFunc =  1 + curNode.distFunc;
+				queue.add(visited[y - 1][x]);
 			}
-			if (checkPosition(x, y + 1) && !isVisited(x, y + 1) && isFree(x, y)) {
-				visited[x][y - 1].distFunc = 1 + curNode.distFunc;
-				queue.add(visited[x][y + 1]);
+			if (checkPosition(x, y + 1) && !isVisited(x, y + 1) && isFree(x, y + 1)) {
+				visited[y + 1][x].distFunc = 1 + curNode.distFunc;
+				queue.add(visited[y + 1][x]);
 			}
 		}
 

@@ -101,7 +101,7 @@ public class GameView {
 	}
 
 	private Point selectedSquareCoord;
-	private List<Point> selectedSquares = null;
+	private List<Point> selectedSquares;
 	
 	public List<Point> getSelectedSquares() {
 		return selectedSquares;
@@ -109,6 +109,11 @@ public class GameView {
 
 	private void selectSquare(int x, int y) {
 		selectedSquareCoord = new Point(x, y);
+	}
+	
+	public boolean isSelected() {
+		//return selectedSquareCoord != null;
+		return selectedSquares != null;
 	}
 	
 	public void selectUnit(int x, int y) throws GameFieldException {

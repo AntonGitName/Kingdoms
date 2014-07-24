@@ -43,8 +43,11 @@ public class GamePanel extends JPanel {
 				final int y = e.getY()  / SQUARE_SIZE;
 				try {
 					gameView.selectUnit(x, y);
+					repaint();
 				} catch (GameFieldException e1) {
+					
 					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 			}
@@ -92,9 +95,11 @@ public class GamePanel extends JPanel {
 			g.drawImage(building.getImage(), building.getX() * SQUARE_SIZE, building.getY() * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, null);
 		}
 		
-		g.setColor(Color.RED);
-		for (Point point : gameView.getSelectedSquares()) {
-			g.drawRect(point.x * SQUARE_SIZE, point.y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+		if (gameView.isSelected()) {
+			g.setColor(Color.RED);
+			for (Point point : gameView.getSelectedSquares()) {
+				g.drawRect(point.x * SQUARE_SIZE, point.y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+			}
 		}
 		
 		g.setColor(Color.RED);

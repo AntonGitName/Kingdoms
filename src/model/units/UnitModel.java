@@ -24,6 +24,7 @@ public abstract class UnitModel {
 		this.maxMoves = maxMoves;
 		this.team = team;
 		this.health = START_HEALTH;
+		this.moves = maxMoves;
 	}
 
 	public int getTeam() {
