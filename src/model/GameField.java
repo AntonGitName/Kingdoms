@@ -88,8 +88,9 @@ public final class GameField {
 
 	}
 
-	// A* algorithm to find a path between two squares
-	public boolean canGet(int fromX, int fromY, int toX, int toY) {
+	/*
+	// A* algorithm to find a path between two squares <-------- Not working correctly!
+	public boolean canMove(int fromX, int fromY, int toX, int toY) throws GameFieldException {
 		// mark all squares as unvisited
 		++currentVisit;
 
@@ -115,35 +116,78 @@ public final class GameField {
 			curNode.visitNum = currentVisit;
 
 			// checking neighbors
-			if (checkPosition(x - 1, y) && !isVisited(x - 1, y)) {
-				visited[x - 1][y].distFunc = manhattanDist(x - 1, y, toX, toY)
-						+ curNode.distFunc;
-				visited[x - 1][y].prev = curNode;
-				queue.add(visited[x - 1][y]);
+			if (checkPosition(x - 1, y) && !isVisited(x - 1, y) && isFree(x - 1, y)) {
+				visited[y][x - 1].distFunc = manhattanDist(x - 1, y, toX, toY) + curNode.distFunc;
+				queue.add(visited[y][x - 1]);
 			}
-			if (checkPosition(x + 1, y) && !isVisited(x + 1, y)) {
-				visited[x + 1][y].distFunc = manhattanDist(x + 1, y, toX, toY)
-						+ curNode.distFunc;
-				visited[x + 1][y].prev = curNode;
-				queue.add(visited[x + 1][y]);
+			if (checkPosition(x + 1, y) && !isVisited(x + 1, y) && isFree(x + 1, y)) {
+				visited[y][x + 1].distFunc =  manhattanDist(x + 1, y, toX, toY) + curNode.distFunc;
+				queue.add(visited[y][x + 1]);
 			}
-			if (checkPosition(x, y - 1) && !isVisited(x, y - 1)) {
-				visited[x][y - 1].distFunc = manhattanDist(x, y - 1, toX, toY)
-						+ curNode.distFunc;
-				visited[x][y - 1].prev = curNode;
-				queue.add(visited[x][y - 1]);
+			if (checkPosition(x, y - 1) && !isVisited(x, y - 1) && isFree(x, y - 1)) {
+				visited[y - 1][x].distFunc =  manhattanDist(x, y - 1, toX, toY) + curNode.distFunc;
+				queue.add(visited[y - 1][x]);
 			}
-			if (checkPosition(x, y + 1) && !isVisited(x, y + 1)) {
-				visited[x][y - 1].distFunc = manhattanDist(x, y + 1, toX, toY)
-						+ curNode.distFunc;
-				visited[x][y + 1].prev = curNode;
-				queue.add(visited[x][y + 1]);
+			if (checkPosition(x, y + 1) && !isVisited(x, y + 1) && isFree(x, y + 1)) {
+				visited[y + 1][x].distFunc = manhattanDist(x, y + 1, toX, toY) + curNode.distFunc;
+				queue.add(visited[y + 1][x]);
 			}
 		}
 
 		return false;
 	}
 
+	*/
+
+	public boolean canMove(int fromX, int fromY, int toX, int toY) throws GameFieldException {
+		// mark all squares as unvisited
+		++currentVisit;
+
+		int maxMoves = units[fromY][fromX].getMoves();
+		
+		// add first
+		Queue<VisitNode> queue = new LinkedList<>();
+		visited[fromY][fromX].distFunc = 0;
+		visited[fromY][fromX].visitNum = currentVisit;
+		queue.add(visited[fromY][fromX]);
+
+		while (!queue.isEmpty()) {
+			VisitNode curNode = queue.remove();
+			int x = curNode.x;
+			int y = curNode.y;
+
+			if (x == toX && y == toY) {
+				return true;
+			}
+			
+			assert curNode.distFunc > maxMoves;
+
+			if (curNode.distFunc == maxMoves) {
+				continue;
+			}
+			
+			// checking neighbors
+			if (checkPosition(x - 1, y) && !isVisited(x - 1, y) && isFree(x - 1, y)) {
+				visited[y][x - 1].distFunc = 1 + curNode.distFunc;
+				queue.add(visited[y][x - 1]);
+			}
+			if (checkPosition(x + 1, y) && !isVisited(x + 1, y) && isFree(x + 1, y)) {
+				visited[y][x + 1].distFunc =  1 + curNode.distFunc;
+				queue.add(visited[y][x + 1]);
+			}
+			if (checkPosition(x, y - 1) && !isVisited(x, y - 1) && isFree(x, y - 1)) {
+				visited[y - 1][x].distFunc =  1 + curNode.distFunc;
+				queue.add(visited[y - 1][x]);
+			}
+			if (checkPosition(x, y + 1) && !isVisited(x, y + 1) && isFree(x, y + 1)) {
+				visited[y + 1][x].distFunc = 1 + curNode.distFunc;
+				queue.add(visited[y + 1][x]);
+			}
+		}
+
+		return false;
+	}
+	
 	private boolean checkMove(Move move) {
 		switch (map[move.toY][move.toX]) {
 		case MOUNTAIN:
@@ -259,18 +303,20 @@ public final class GameField {
 	}
 
 	private boolean isVisited(int x, int y) {
-		return visited[x][y].visitNum == currentVisit;
+		return visited[y][x].visitNum == currentVisit;
 	}
 
 	public void makeMove(int fromX, int fromY, int toX, int toY) {
 		assert checkMove(new Move(fromX, fromY, toX, toY));
 		units[toY][toX] = units[fromY][fromX];
+		units[toY][toX].setXY(toX, toY);
 		units[fromY][fromX] = null;
 	}
 
 	public void makeMove(Move move) {
 		assert checkMove(move);
 		units[move.toY][move.toX] = units[move.fromY][move.fromX];
+		units[move.toY][move.toX].setXY(move.toX, move.toY);
 		units[move.fromY][move.fromX] = null;
 	}
 

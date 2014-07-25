@@ -42,7 +42,7 @@ public class GamePanel extends JPanel {
 				final int x = e.getX() / SQUARE_SIZE;
 				final int y = e.getY()  / SQUARE_SIZE;
 				try {
-					gameView.selectUnit(x, y);
+					gameView.clickSquare(x, y);
 					repaint();
 				} catch (GameFieldException e1) {
 					
@@ -87,12 +87,12 @@ public class GamePanel extends JPanel {
 			}
 		}
 		
-		for (UnitView unit : gameView.getUnits()) {
-			g.drawImage(unit.getImage(), unit.getX() * SQUARE_SIZE, unit.getY() * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, null);
-		}
-		
 		for (BuildingView building : gameView.getBuildings()) {
 			g.drawImage(building.getImage(), building.getX() * SQUARE_SIZE, building.getY() * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, null);
+		}
+		
+		for (UnitView unit : gameView.getUnits()) {
+			g.drawImage(unit.getImage(), unit.getX() * SQUARE_SIZE, unit.getY() * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, null);
 		}
 		
 		if (gameView.isSelected()) {

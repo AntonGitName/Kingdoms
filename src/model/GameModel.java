@@ -23,7 +23,7 @@ public class GameModel {
 		return false;
 	}
 
-	public void makeMove(int fromX, int fromY, int toX, int toY) {
+	public void makeMove(int fromX, int fromY, int toX, int toY) throws GameFieldException {
 
 		// Move move = new Move(fromX, fromY, toX, toY);
 
@@ -31,7 +31,7 @@ public class GameModel {
 		if (unitToMove.getTeam() != currentTeamTurn) {
 			return;
 		}
-		if (!field.canGet(fromX, fromY, toX, toY)) {
+		if (!field.canMove(fromX, fromY, toX, toY)) {
 			return;
 		}
 		field.makeMove(fromX, fromY, toX, toY);
@@ -58,5 +58,9 @@ public class GameModel {
 	
 	public List<Point> getAccessibleSquares(int x, int y) throws GameFieldException {
 		return field.getAccessibleSquares(x, y);
+	}
+
+	public boolean canMove(int fromX, int fromY, int toX, int toY) throws GameFieldException {
+		return field.canMove(fromX, fromY, toX, toY);
 	}
 }

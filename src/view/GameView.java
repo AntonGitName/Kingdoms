@@ -111,12 +111,22 @@ public class GameView {
 		selectedSquareCoord = new Point(x, y);
 	}
 	
-	public boolean isSelected() {
-		//return selectedSquareCoord != null;
-		return selectedSquares != null;
+	public void clickSquare(int x, int y) throws GameFieldException {
+		if (model.isAvailableUnit(x, y)) {
+			selectUnit(x, y);
+		} else if (isSelected() && model.canMove(selectedSquareCoord.x, selectedSquareCoord.y, x, y)) {
+			model.makeMove(selectedSquareCoord.x, selectedSquareCoord.y, x, y);
+			selectedSquareCoord = null;
+			selectedSquares = null;
+		}
 	}
 	
-	public void selectUnit(int x, int y) throws GameFieldException {
+	public boolean isSelected() {
+		//return selectedSquareCoord != null;
+		return selectedSquareCoord != null;
+	}
+	
+	private void selectUnit(int x, int y) throws GameFieldException {
 		if (model.isAvailableUnit(x, y)) {
 			selectSquare(x, y);
 			selectedSquares = model.getAccessibleSquares(x, y);
